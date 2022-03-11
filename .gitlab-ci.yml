@@ -1,0 +1,14 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+deploy:
+  stage: deploy
+  only:
+    refs:
+      - master
+  tags:
+    - deploy_master
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker-compose -f docker-compose.yml up -d --build
+    - docker rmi $(docker images -f "dangling=true" -q)

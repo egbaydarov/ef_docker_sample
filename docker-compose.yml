@@ -1,0 +1,25 @@
+version: "3.3"
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "54322:5432"
+    environment:
+      POSTGRES_USER: "bloguser"
+      POSTGRES_PASSWORD: "bloguser"
+      POSTGRES_DB: "blogdb"
+    volumes:
+      - dbdata:/var/lib/postgres
+      - ./PassengerService.Web/dbscripts:/docker-entrypoint-initdb.d
+    restart: always
+  web:
+    build: ./PassengerService.Web
+    ports:
+      - "5004:1488"
+      - "5003:1448"
+    depends_on:
+      - db
+    restart: unless-stopped
+volumes:
+  dbdata:
+      
