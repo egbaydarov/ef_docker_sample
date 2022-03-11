@@ -37,7 +37,7 @@ public class CommentController : ControllerBase
         await tx.CommitAsync();
     }
     
-    [HttpPost]
+    [HttpDelete]
     [Route("RemoveById")]
     public async Task<ActionResult> RemoveById([FromQuery]int id)
     {
