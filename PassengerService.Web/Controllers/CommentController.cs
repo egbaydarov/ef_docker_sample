@@ -24,15 +24,15 @@ public class CommentController : ControllerBase
     [Route("GetAll")]
     public ActionResult<IList<Comment>> GetByEmail()
     {
-        return _context.UsersComments.ToList();
+        return _context.Comments.ToList();
     }
     
     [HttpPost]
     [Route("AddComment")]
-    public async Task AddComment([FromBody]Comment user)
+    public async Task AddComment([FromBody]Comment comment)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
-        await _context.AddAsync(user);
+        await _context.AddAsync(comment);
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
     }
@@ -42,7 +42,7 @@ public class CommentController : ControllerBase
     public async Task<ActionResult> RemoveById([FromQuery]int id)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
-        _context.UsersComments.RemoveRange(_context.UsersComments.Where(u => u.Id == id));
+        _context.Comments.RemoveRange(_context.Comments.Where(u => u.Id == id));
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
         return Ok();
@@ -50,17 +50,17 @@ public class CommentController : ControllerBase
     
     [HttpPut]
     [Route("UpdateCommentById")]
-    public async Task<ActionResult> UpdateUserByEmail([FromQuery]int id, [FromBody]User user)
+    public async Task<ActionResult> UpdateUserByEmail([FromQuery]int id, [FromBody]Comment comment)
     {
-        var oldUser = _context.UsersComments.FirstOrDefault(u => u.Id == id);
-        if (oldUser == null)
+        var oldComment = _context.Comments.FirstOrDefault(u => u.Id == id);
+        if (oldComment == null)
         {
             return NotFound();
         }
         
         await using var tx = await _context.Database.BeginTransactionAsync();
-        _context.Remove(oldUser);
-        await _context.AddAsync(user);
+        _context.Remove(oldComment);
+        await _context.AddAsync(comment);
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
         return Ok();

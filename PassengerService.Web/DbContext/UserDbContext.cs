@@ -10,7 +10,7 @@ public sealed class UserDbContext : Microsoft.EntityFrameworkCore.DbContext
 
     public DbSet<User> Users { get; set; }
     
-    public DbSet<Comment> UsersComments { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 }
 
 public class User
@@ -62,7 +62,7 @@ public class Comment
     
     public string Arrival { get; set; }
     
-    public float Rating { get; set; }
+    public double Rating { get; set; }
     
     public string Feedback { get; set; }
 }

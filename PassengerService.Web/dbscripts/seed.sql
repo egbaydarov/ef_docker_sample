@@ -30,6 +30,7 @@ CREATE TABLE "Comments"
     "Departure"  VARCHAR (50) NOT NULL,
     "Arrival"  VARCHAR (50) NOT NULL,
     "Rating" FLOAT NOT NULL,
+    "Feedback" VARCHAR (50) NOT NULL
 );
 ALTER TABLE "Comments" OWNER TO bloguser;
 
