@@ -54,7 +54,7 @@ public class UserController : ControllerBase
     
     [HttpDelete]
     [Route("RemoveById")]
-    public async Task<ActionResult> RemoveById([FromQuery]int id)
+    public async Task<ActionResult> RemoveById([FromQuery]string id)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
         _context.Users.RemoveRange(_context.Users.Where(u => u.Id == id));
@@ -65,7 +65,7 @@ public class UserController : ControllerBase
     
     [HttpPut]
     [Route("UpdateUserById")]
-    public async Task<ActionResult> UpdateUserById([FromQuery]int id, [FromBody]User user)
+    public async Task<ActionResult> UpdateUserById([FromQuery]string id, [FromBody]User user)
     {
         var oldUser = _context.Users.SingleOrDefault(u => u.Id == id);
         if (oldUser == null)

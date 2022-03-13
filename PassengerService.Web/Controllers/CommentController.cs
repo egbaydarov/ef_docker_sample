@@ -39,7 +39,7 @@ public class CommentController : ControllerBase
     
     [HttpDelete]
     [Route("RemoveById")]
-    public async Task<ActionResult> RemoveById([FromQuery]int id)
+    public async Task<ActionResult> RemoveById([FromQuery]string id)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
         _context.Comments.RemoveRange(_context.Comments.Where(u => u.Id == id));
@@ -50,7 +50,7 @@ public class CommentController : ControllerBase
     
     [HttpPut]
     [Route("UpdateCommentById")]
-    public async Task<ActionResult> UpdateUserByEmail([FromQuery]int id, [FromBody]Comment comment)
+    public async Task<ActionResult> UpdateUserByEmail([FromQuery]string id, [FromBody]Comment comment)
     {
         var oldComment = _context.Comments.FirstOrDefault(u => u.Id == id);
         if (oldComment == null)
