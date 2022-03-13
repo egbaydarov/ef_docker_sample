@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -63,18 +64,27 @@ public class UserController : ControllerBase
     }
     
     [HttpPut]
-    [Route("UpdateUserByEmail")]
-    public async Task<ActionResult> UpdateUserByEmail([FromQuery]string email, [FromBody]User user)
+    [Route("UpdateUserById")]
+    public async Task<ActionResult> UpdateUserById([FromQuery]int id, [FromBody]User user)
     {
-        var oldUser = _context.Users.FirstOrDefault(u => u.Email == email);
+        var oldUser = _context.Users.SingleOrDefault(u => u.Id == id);
         if (oldUser == null)
         {
             return NotFound();
         }
         
-        await using var tx = await _context.Database.BeginTransactionAsync();
-        _context.Remove(oldUser);
-        await _context.AddAsync(user);
+        await using var tx = await _context.Database.BeginTransactionAsync(); 
+        oldUser.Email = user.Email;
+        oldUser.Login = user.Login;
+        oldUser.Phone = user.Phone;
+        oldUser.CompanyId = user.CompanyId;
+        oldUser.CompanyName = user.CompanyName;
+        oldUser.FirstName = user.FirstName;
+        oldUser.MiddleName = user.MiddleName;
+        oldUser.ModeratorToken = user.ModeratorToken;
+        oldUser.LastName = user.LastName;
+        oldUser.ImageUrl = user.ImageUrl;
+        oldUser.UserType = user.UserType;
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
         return Ok();
