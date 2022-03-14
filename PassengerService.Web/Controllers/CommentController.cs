@@ -28,10 +28,10 @@ public class CommentController : ControllerBase
     }
     
     [HttpGet]
-    [Route("GetByEmail")]
-    public ActionResult<IList<Comment>> GetByEmail([FromForm]string email)
+    [Route("GetByUserId")]
+    public ActionResult<IList<Comment>> GetByEmail([FromQuery]string userId)
     {
-        return _context.Comments.Where(c => c.Email.Equals(email)).ToList();
+        return _context.Comments.Where(c => c.UserId.Equals(userId)).ToList();
     }
     
     [HttpPost]
@@ -46,11 +46,11 @@ public class CommentController : ControllerBase
     }
     
     [HttpDelete]
-    [Route("RemoveById")]
-    public async Task<ActionResult> RemoveById([FromQuery]string id)
+    [Route("RemoveByUserId")]
+    public async Task<ActionResult> RemoveBUserId([FromQuery]string id)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
-        _context.Comments.RemoveRange(_context.Comments.Where(u => u.Id == id));
+        _context.Comments.RemoveRange(_context.Comments.Where(u => u.UserId == id));
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
         return Ok();
@@ -58,12 +58,12 @@ public class CommentController : ControllerBase
     
     [HttpPut]
     [Route("UpdateCommentById")]
-    public async Task<ActionResult> UpdateUserByEmail([FromQuery]string id, [FromBody]Comment comment)
+    public async Task<ActionResult> UpdateCommentByUserId([FromQuery]string userId, [FromBody]Comment comment)
     {
-        var oldComment = _context.Comments.FirstOrDefault(u => u.Id == id);
+        var oldComment = _context.Comments.FirstOrDefault(u => u.UserId == userId);
         if (oldComment == null)
         {
-            return NotFound($"User with id: {id} not found.");
+            return NotFound($"User with id: {userId} not found.");
         }
         
         await using var tx = await _context.Database.BeginTransactionAsync();
