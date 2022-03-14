@@ -11,10 +11,10 @@ namespace PassengerService.Web.Controllers;
 [Route("/api/v1/[controller]")]
 public class CommentController : ControllerBase
 {
-    private readonly ILogger<UserController> _logger;
+    private readonly ILogger<WalletController> _logger;
     private readonly UserDbContext _context;
     
-    public CommentController(UserDbContext context, ILogger<UserController> logger)
+    public CommentController(UserDbContext context, ILogger<WalletController> logger)
     {
         _logger = logger;
         _context = context;
@@ -22,9 +22,16 @@ public class CommentController : ControllerBase
     
     [HttpGet]
     [Route("GetAll")]
-    public ActionResult<IList<Comment>> GetByEmail()
+    public ActionResult<IList<Comment>> GetAll()
     {
         return _context.Comments.ToList();
+    }
+    
+    [HttpGet]
+    [Route("GetByEmail")]
+    public ActionResult<IList<Comment>> GetByEmail([FromForm]string email)
+    {
+        return _context.Comments.Where(c => c.Email.Equals(email)).ToList();
     }
     
     [HttpPost]
@@ -55,7 +62,7 @@ public class CommentController : ControllerBase
         var oldComment = _context.Comments.FirstOrDefault(u => u.Id == id);
         if (oldComment == null)
         {
-            return NotFound();
+            return NotFound($"User with id: {id} not found.");
         }
         
         await using var tx = await _context.Database.BeginTransactionAsync();

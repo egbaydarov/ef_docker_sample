@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,7 +35,7 @@ public class UserController : ControllerBase
 
         if (user == null)
         {
-            return NotFound();
+            return NotFound($"User with email: {email} not found.");
         }
 
         return user;
@@ -70,7 +69,7 @@ public class UserController : ControllerBase
         var oldUser = _context.Users.SingleOrDefault(u => u.Id == id);
         if (oldUser == null)
         {
-            return NotFound();
+            return NotFound($"User with id: {id} not found.");
         }
         
         await using var tx = await _context.Database.BeginTransactionAsync(); 

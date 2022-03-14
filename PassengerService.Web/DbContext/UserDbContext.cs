@@ -11,6 +11,12 @@ public sealed class UserDbContext : Microsoft.EntityFrameworkCore.DbContext
     public DbSet<User> Users { get; set; }
     
     public DbSet<Comment> Comments { get; set; }
+    
+    public DbSet<Passenger> Passengers { get; set; }
+    
+    public DbSet<Ticket> Tickets { get; set; }
+    
+    public DbSet<Wallet> Wallets { get; set; }
 }
 
 public class User
@@ -65,4 +71,42 @@ public class Comment
     public double Rating { get; set; }
     
     public string Feedback { get; set; }
+}
+
+public class Passenger
+{
+    public int PassengerId { get; set; }
+    public string UserId { get; set; }
+
+    public string Name { get; set; }
+    
+    public string Phone { get; set; }
+
+    public string Email { get; set; }
+
+    public string Document { get; set; }
+}
+
+public class Wallet
+{
+    public string UserId { get; set; }
+    
+    public long Money { get; set; }
+}
+
+public class Ticket
+{
+    public int Id { get; set; }
+    
+    public string UserId { get; set; }
+    
+    public int PassengerId { get; set; }
+    
+    public string Seat { get; set; }
+    
+    public string Price { get; set; }
+    
+    public string Status { get; set; }
+    
+    public int RouteId { get; set; }
 }
