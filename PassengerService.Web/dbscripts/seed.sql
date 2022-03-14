@@ -19,7 +19,7 @@ ALTER TABLE "Users" OWNER TO bloguser;
 
 CREATE TABLE "Comments"
 (
-    "Id" VARCHAR(50) PRIMARY KEY,
+    "Id" serial PRIMARY KEY,
     "FirstName"  VARCHAR (50)  NOT NULL,
     "LastName"  VARCHAR (50)  NOT NULL,
     "MiddleName"  VARCHAR (50)  NOT NULL,
@@ -43,7 +43,7 @@ ALTER TABLE "Wallets" OWNER TO bloguser;
 
 CREATE TABLE "Tickets"
 (
-    "Id" INTEGER PRIMARY KEY,
+    "Id" serial PRIMARY KEY,
     "UserId"  VARCHAR (50)  NOT NULL,
     "PassengerId"  INT  NOT NULL,
     "RouteId"  INT  NOT NULL,
@@ -55,7 +55,7 @@ ALTER TABLE "Tickets" OWNER TO bloguser;
 
 CREATE TABLE "Passengers"
 (
-    "Id" INTEGER PRIMARY KEY,
+    "Id" serial PRIMARY KEY,
     "UserId"  VARCHAR (50)  NOT NULL,
     "Name"  VARCHAR (50)  NOT NULL,
     "Phone"  VARCHAR (50)  NOT NULL,

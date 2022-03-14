@@ -44,6 +44,10 @@ public class WalletController : ControllerBase
         var wallet = _context.Wallets.FirstOrDefault(w => w.Id == userId);
         if (wallet == null)
         {
+            if (_context.Users.All(u => userId != u.Id))
+            {
+                return NotFound("Wallet Id should be the same as existing user Id.");
+            }
             wallet = new Wallet {Id = userId};
             await _context.Wallets.AddAsync(wallet);
             await _context.SaveChangesAsync();
@@ -71,6 +75,10 @@ public class WalletController : ControllerBase
             return wallet;
         }
         
+        if (_context.Users.All(u => userId != u.Id))
+        {
+            return NotFound("Wallet Id should be the same as existing user Id.");
+        }
         wallet = new Wallet {Id = userId};
         await _context.Wallets.AddAsync(wallet);
         await _context.SaveChangesAsync();

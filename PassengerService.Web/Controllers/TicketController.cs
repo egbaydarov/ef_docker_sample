@@ -29,14 +29,14 @@ public class TicketController : ControllerBase
     
     [HttpGet]
     [Route("GetByUserId")]
-    public ActionResult<IList<Ticket>> GetByUserId([FromForm]string userId)
+    public ActionResult<IList<Ticket>> GetByUserId([FromQuery]string userId)
     {
         return _context.Tickets.Where(c => c.UserId.Equals(userId)).ToList();
     }
     
     [HttpPost]
     [Route("Add")]
-    public async Task<ActionResult> AddTicket([FromBody]Ticket ticket)
+    public async Task<ActionResult<int>> AddTicket([FromBody]Ticket ticket)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
         if (ticket.PassengerId != -1 &&
@@ -47,7 +47,7 @@ public class TicketController : ControllerBase
         await _context.AddAsync(ticket);
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
-        return Ok();
+        return Ok(ticket.Id);
     }
     
     [HttpDelete]

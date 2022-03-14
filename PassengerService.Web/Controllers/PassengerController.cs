@@ -29,7 +29,7 @@ public class PassengerController : ControllerBase
 
     [HttpPost]
     [Route("AddPassenger")]
-    public async Task<ActionResult> AddPassenger([FromBody] Passenger passenger)
+    public async Task<ActionResult<int>> AddPassenger([FromBody] Passenger passenger)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
         if (_context.Users.FirstOrDefault(u => u.Id == passenger.UserId) == null)
@@ -39,7 +39,7 @@ public class PassengerController : ControllerBase
         await _context.AddAsync(passenger);
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
-        return Ok();
+        return Ok(passenger.Id);
     }
     
     [HttpDelete]

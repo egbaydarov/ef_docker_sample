@@ -36,12 +36,13 @@ public class CommentController : ControllerBase
     
     [HttpPost]
     [Route("AddComment")]
-    public async Task AddComment([FromBody]Comment comment)
+    public async Task<ActionResult<int>> AddComment([FromBody]Comment comment)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
         await _context.AddAsync(comment);
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
+        return Ok(comment.Id);
     }
     
     [HttpDelete]
