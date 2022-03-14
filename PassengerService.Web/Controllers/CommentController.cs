@@ -46,7 +46,7 @@ public class CommentController : ControllerBase
     }
     
     [HttpDelete]
-    [Route("RemoveByUserId")]
+    [Route("RemoveById")]
     public async Task<ActionResult> RemoveById([FromQuery]int id)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
@@ -67,8 +67,18 @@ public class CommentController : ControllerBase
         }
         
         await using var tx = await _context.Database.BeginTransactionAsync();
-        _context.Remove(oldComment);
-        await _context.AddAsync(comment);
+        oldComment.Arrival = comment.Arrival;
+        oldComment.Departure = comment.Departure;
+        oldComment.Email = comment.Email;
+        oldComment.Feedback = comment.Feedback;
+        oldComment.Phone = comment.Phone;
+        oldComment.Rating = comment.Rating;
+        oldComment.Vehicle = comment.Vehicle;
+        oldComment.CompanyName = comment.CompanyName;
+        oldComment.FirstName = comment.FirstName;
+        oldComment.LastName = comment.LastName;
+        oldComment.MiddleName = comment.MiddleName;
+        oldComment.UserId = comment.UserId;
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
         return Ok();

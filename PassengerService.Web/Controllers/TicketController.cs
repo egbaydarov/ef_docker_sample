@@ -72,8 +72,12 @@ public class TicketController : ControllerBase
         }
         
         await using var tx = await _context.Database.BeginTransactionAsync();
-        _context.Remove(oldTicket);
-        await _context.AddAsync(ticket);
+        oldTicket.Price = ticket.Price;
+        oldTicket.Seat = ticket.Seat;
+        oldTicket.Status = ticket.Status;
+        oldTicket.PassengerId = ticket.PassengerId;
+        oldTicket.RouteId = oldTicket.RouteId;
+        oldTicket.UserId = oldTicket.UserId;
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
         return Ok();

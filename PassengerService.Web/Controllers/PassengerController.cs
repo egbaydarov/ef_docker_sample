@@ -52,4 +52,25 @@ public class PassengerController : ControllerBase
         await tx.CommitAsync();
         return Ok();
     }
+    
+    [HttpPut]
+    [Route("UpdatePassengerById")]
+    public async Task<ActionResult> UpdatePassengerById([FromQuery]int id, [FromBody]Passenger passenger)
+    {
+        var oldPassenger = _context.Passengers.FirstOrDefault(u => u.Id == id);
+        if (oldPassenger == null)
+        {
+            return NotFound($"Passenger with id: {id} not found.");
+        }
+        
+        await using var tx = await _context.Database.BeginTransactionAsync();
+        oldPassenger.Document = passenger.Document;
+        oldPassenger.Email = passenger.Email;
+        oldPassenger.Name = passenger.Name;
+        oldPassenger.Phone = passenger.Phone;
+        oldPassenger.UserId = passenger.UserId;
+        await _context.SaveChangesAsync();
+        await tx.CommitAsync();
+        return Ok();
+    }
 }
