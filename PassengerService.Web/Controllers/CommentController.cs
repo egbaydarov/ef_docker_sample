@@ -29,7 +29,7 @@ public class CommentController : ControllerBase
     
     [HttpGet]
     [Route("GetByUserId")]
-    public ActionResult<IList<Comment>> GetByEmail([FromQuery]string userId)
+    public ActionResult<IList<Comment>> GetByUserId([FromQuery]string userId)
     {
         return _context.Comments.Where(c => c.UserId.Equals(userId)).ToList();
     }
@@ -47,10 +47,10 @@ public class CommentController : ControllerBase
     
     [HttpDelete]
     [Route("RemoveByUserId")]
-    public async Task<ActionResult> RemoveBUserId([FromQuery]string id)
+    public async Task<ActionResult> RemoveById([FromQuery]int id)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
-        _context.Comments.RemoveRange(_context.Comments.Where(u => u.UserId == id));
+        _context.Comments.RemoveRange(_context.Comments.Where(u => u.Id == id));
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
         return Ok();
@@ -58,12 +58,12 @@ public class CommentController : ControllerBase
     
     [HttpPut]
     [Route("UpdateCommentById")]
-    public async Task<ActionResult> UpdateCommentByUserId([FromQuery]string userId, [FromBody]Comment comment)
+    public async Task<ActionResult> UpdateCommentById([FromQuery]int id, [FromBody]Comment comment)
     {
-        var oldComment = _context.Comments.FirstOrDefault(u => u.UserId == userId);
+        var oldComment = _context.Comments.FirstOrDefault(u => u.Id == id);
         if (oldComment == null)
         {
-            return NotFound($"User with id: {userId} not found.");
+            return NotFound($"Comment with id: {id} not found.");
         }
         
         await using var tx = await _context.Database.BeginTransactionAsync();
