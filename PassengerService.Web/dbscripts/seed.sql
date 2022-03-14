@@ -20,7 +20,7 @@ ALTER TABLE "Users" OWNER TO bloguser;
 CREATE TABLE "Comments"
 (
     "Id" serial PRIMARY KEY,
-    "UserId" INTEGER NOT NULL,
+    "UserId" VARCHAR (50) NOT NULL,
     "FirstName"  VARCHAR (50)  NOT NULL,
     "LastName"  VARCHAR (50)  NOT NULL,
     "MiddleName"  VARCHAR (50)  NOT NULL,
