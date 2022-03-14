@@ -20,7 +20,7 @@ public class WalletController : ControllerBase
     }
 
     [HttpPut]
-    [Route("/TopUp")]
+    [Route("TopUp")]
     public async Task<ActionResult> TopUp([FromQuery] string userId, long amount)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
@@ -37,7 +37,7 @@ public class WalletController : ControllerBase
     }
     
     [HttpPut]
-    [Route("/Withdraw")]
+    [Route("Withdraw")]
     public async Task<ActionResult> Withdraw([FromQuery] string userId, long amount)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();

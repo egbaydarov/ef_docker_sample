@@ -37,7 +37,7 @@ ALTER TABLE "Comments" OWNER TO bloguser;
 CREATE TABLE "Wallets"
 (
     "UserId" VARCHAR(50) PRIMARY KEY,
-    "Money"  INTEGER  NOT NULL,
+    "Money"  INTEGER  NOT NULL
 );
 ALTER TABLE "Wallets" OWNER TO bloguser;
 
@@ -49,7 +49,7 @@ CREATE TABLE "Tickets"
     "RouteId"  INT  NOT NULL,
     "Seat"  VARCHAR (50)  NOT NULL,
     "Price"  VARCHAR (50)  NOT NULL,
-    "Status"  VARCHAR (50)  NOT NULL,
+    "Status"  VARCHAR (50)  NOT NULL
 );
 ALTER TABLE "Tickets" OWNER TO bloguser;
 
@@ -60,6 +60,6 @@ CREATE TABLE "Passengers"
     "Name"  VARCHAR (50)  NOT NULL,
     "Phone"  VARCHAR (50)  NOT NULL,
     "Email"  VARCHAR (50)  NOT NULL,
-    "Document"  VARCHAR (300)  NOT NULL,
+    "Document"  VARCHAR (300)  NOT NULL
 );
 ALTER TABLE "Passengers" OWNER TO bloguser;
