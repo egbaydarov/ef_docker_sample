@@ -40,7 +40,7 @@ public class TicketController : ControllerBase
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
         if (ticket.PassengerId != -1 &&
-            _context.Passengers.SingleOrDefault(p => p.PassengerId == ticket.PassengerId) == null)
+            _context.Passengers.SingleOrDefault(p => p.Id == ticket.PassengerId) == null)
         {
             return NotFound($"Passenger with id: {ticket.Id} not found.");
         }

@@ -47,7 +47,7 @@ public class PassengerController : ControllerBase
     public async Task<ActionResult> RemovePassenger([FromQuery] int id, [FromBody] Passenger passenger)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
-        _context.Passengers.RemoveRange(_context.Passengers.Where(p => p.PassengerId == id));
+        _context.Passengers.RemoveRange(_context.Passengers.Where(p => p.Id == id));
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
         return Ok();

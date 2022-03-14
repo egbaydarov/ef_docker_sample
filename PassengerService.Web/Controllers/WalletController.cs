@@ -24,10 +24,10 @@ public class WalletController : ControllerBase
     public async Task<ActionResult> TopUp([FromQuery] string userId, long amount)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
-        var wallet = _context.Wallets.FirstOrDefault(w => w.UserId == userId);
+        var wallet = _context.Wallets.FirstOrDefault(w => w.Id == userId);
         if (wallet == null)
         {
-            wallet = new Wallet {UserId = userId};
+            wallet = new Wallet {Id = userId};
             _context.Wallets.Add(wallet);
         }
         wallet.Money += amount;
@@ -41,10 +41,10 @@ public class WalletController : ControllerBase
     public async Task<ActionResult> Withdraw([FromQuery] string userId, long amount)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
-        var wallet = _context.Wallets.FirstOrDefault(w => w.UserId == userId);
+        var wallet = _context.Wallets.FirstOrDefault(w => w.Id == userId);
         if (wallet == null)
         {
-            wallet = new Wallet {UserId = userId};
+            wallet = new Wallet {Id = userId};
             await _context.Wallets.AddAsync(wallet);
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
@@ -65,13 +65,13 @@ public class WalletController : ControllerBase
     public async Task<ActionResult<Wallet>> GetWallet(string userId)
     {
         await using var tx = await _context.Database.BeginTransactionAsync();
-        var wallet = _context.Wallets.FirstOrDefault(w => w.UserId == userId);
+        var wallet = _context.Wallets.FirstOrDefault(w => w.Id == userId);
         if (wallet != null)
         {
             return wallet;
         }
         
-        wallet = new Wallet {UserId = userId};
+        wallet = new Wallet {Id = userId};
         await _context.Wallets.AddAsync(wallet);
         await _context.SaveChangesAsync();
         await tx.CommitAsync();
